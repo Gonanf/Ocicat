@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class PaginaPrincipalConfig(AppConfig):
+class LoginEndpointsConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'pagina_principal'
+    name = 'login_endpoints'

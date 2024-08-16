@@ -1,0 +1,9 @@
+{% extends "main_page/index.html" %}
+{% block body %}
+ <form action="{% url "login" %}" method="post">
+    {% csrf_token %}
+    <input type="email" name="gmail" id="gmail" placeholder="INGRESA GNAMOA">
+    <input type="password" name="contrasena" id="contrasena" placeholder="INGRESA CONTRASNEA">
+    <button type="submit">DALE</button>
+ </form>
+ {% endblock body %}
