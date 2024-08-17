@@ -1,0 +1,16 @@
+{% extends "main_page/index.html" %} {% block body %} {% load static %}
+<h2>Esta publicacion fue creada por {{ publicacion.autor.nombre }}</h2>
+<img src="{{ publicacion.portada.archivo.url }}" alt="">
+<h3>Titulo: {{ publicacion.titulo }}</h3>
+<h5>Descripcion: {{ publicacion.descripcion }}</h5>
+<h6>Fecha: {{ publicacion.fecha }}</h6>
+<div id="files">
+  {% for archivo in publicacion.archivos.all %}
+    <embed src="{{ archivo.archivo.url }}">
+  {% endfor %}
+</div>
+<h5>Categorias: </h5>
+{% for categoria in publicacion.categoria.all %}
+<h6>{{ categoria.nombre }}</h6>
+{% endfor %}
+{% endblock body %}

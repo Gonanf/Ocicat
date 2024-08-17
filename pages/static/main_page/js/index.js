@@ -13,7 +13,7 @@ button.onclick = function (e) {
   };
   button.innerHTML = "LOGOUT";
 
-fetch("/login", {
+function get_login() { return fetch("/login", {
   method: "GET",
   mode: "cors",
   cache: "no-cache",
@@ -21,14 +21,24 @@ fetch("/login", {
   headers: {
     "Content-Type": "application/json",
   },
+}).then((a) => {
+  if (a.status != 404){
+    return a.json()
+  }
+  console.log("No esat iniciado sesion");
+  
+}).then((data) => data).catch((e) => console.log(e))
+}
 
-})
-  .then((a) => a.json())
-  .then((result_json) => {
-    if (result_json.nombre) {
-      document.getElementById("nombre").innerHTML = result_json.nombre;
-      document.getElementById("container").appendChild(button);
-    }
-  });
+get_login().then((data) => {
+  if (data){
+  if (data.nombre) {
+    document.getElementById("nombre").innerHTML = data.nombre;
+    document.getElementById("container").appendChild(button);
+  }
+}
+});
+    
+  
 
   

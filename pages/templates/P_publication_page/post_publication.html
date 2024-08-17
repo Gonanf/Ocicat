@@ -1,0 +1,17 @@
+{% extends "main_page/index.html" %} {% block body %} {% load static %}
+<h1>Hola {{ usuario }}</h1>
+<input type="file" name="" id="portada" accept="image/*" />
+<input type="text" name="" id="titulo" />
+<input type="text" name="" id="descripcion" />
+<select name="" id="categoria" multiple>
+  Seleccionar una categoria {% for cat in categorias %}
+  <option value="{{ cat }}">{{ cat }}</option>
+  {% endfor %}
+</select>
+<div id="files"></div>
+<button type="submit" id="enviar">DALE</button>
+<script
+  src="{% static 'P_publication_page/js/post_publication.js' %}"
+  defer
+></script>
+{% endblock body %}

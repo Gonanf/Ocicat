@@ -3,7 +3,18 @@ from django.http import HttpResponse,HttpResponseBadRequest,HttpResponseNotFound
 from .models import Login
 from models.models import USUARIO
 
-def login(request):
+            
+def find_user(request):
+    galletita = request.COOKIES.get('sesion')
+    if galletita is None:
+        return HttpResponseNotFound("No existe")
+    try: user = USUARIO.objects.get(pk = galletita)
+    except USUARIO.DoesNotExist:
+        return HttpResponseNotFound("No existe")
+    return user
+    
+
+def login_end(request):
     if request.method == "POST":
         data = Login(request.POST)
         if data.is_valid():
@@ -15,13 +26,10 @@ def login(request):
             return response
         return HttpResponseBadRequest("No es valido")
     if request.method == "GET":
-        galletita = request.COOKIES.get('sesion')
-        if galletita is None:
-            return HttpResponseNotFound("No existe")
-        try: user = USUARIO.objects.get(pk = galletita)
-        except USUARIO.DoesNotExist:
-            return HttpResponseNotFound("No existe")
-        return JsonResponse({"nombre": user.nombre})
+        result = find_user(request)
+        if (result is HttpResponseNotFound):
+            return result
+        return JsonResponse({"nombre": result.nombre})
     if request.method == "DELETE":
         galletita = request.COOKIES.get('sesion')
         if galletita is None:
@@ -29,7 +37,6 @@ def login(request):
         response = HttpResponse("Logrado")
         response.delete_cookie('sesion')
         return response
-            
-        
+
         
 

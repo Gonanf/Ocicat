@@ -17,9 +17,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls import include
+from django.conf.urls.static import static
+from ocicat import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('pages.urls')),
     path('',include('login_endpoints.urls')),
+    path('',include('other_endpoints.urls')),
+    path('',include('publication_endpoints.urls')),
     ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

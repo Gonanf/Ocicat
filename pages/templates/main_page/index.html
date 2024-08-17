@@ -24,9 +24,9 @@
         <h6>Estas en la pagina principal</h6>
         <h4 id="nombre"></h4>
         <a href="{% url "login_page" %}">inicie sesion</a>
-        
-        <div id="container"></div>
-        {% endblock body %}
         <script src="{% static 'main_page/js/index.js '%}" async defer></script>
+        <div id="container"></div>
+        <a href="{% url 'publicacion_pagina' 'new' %}">AAAAAAAAAA</a>
+        {% endblock body %}
     </body>
 </html>
