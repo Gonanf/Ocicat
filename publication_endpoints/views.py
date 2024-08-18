@@ -12,11 +12,12 @@ def get_publication_by_id(id):
         return HttpResponse("La publicacion no existe")
     return publicacion
 
-# Create your views here.
+    
+
 def publication(request):
     if (request.method == "POST"):
         user = find_user(request)
-        if (user is HttpResponseNotFound):
+        if (isinstance(user,HttpResponseNotFound)):
             return user
         portada = request.FILES.get('portada')
         temp_portada = MEDIA(archivo = portada)

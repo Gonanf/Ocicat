@@ -91,5 +91,5 @@ function create_container(){
       headers: { "X-CSRFToken": csrf_token },
       body: form,
       redirect: "follow"
-    }).then((a) => console.log(a)).catch((e) => console.log(e));
+    }).then((a) => location.href = a.url).catch((e) => console.log(e));
   };
