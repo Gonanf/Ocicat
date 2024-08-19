@@ -18,15 +18,49 @@
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        <h1>Ola a ocicat</h1>
-        <h2>Ocicalate</h2>
+        <header>
+            <img src="{% static 'main_page/assets/OcicatLogo.svg' %}" alt="" id="logo">
+            <input type="text" name="" id="buscador" placeholder="Buscar un titulo">
+            <button id="buscar">
+                <img src="" alt="">
+                Buscar
+            </button>
+            {% if usuario %}
+            <h5>Hola {{ usuario.nombre }}</h5>
+        <a href="{% url 'publicacion_pagina' 'new' %}">Subir</a>
+                <button id="logout">Logout</button>
+            {% else %}
+            <a href="{% url "login_page" %}">inicie sesion</a>
+            {% endif %}
+        </header>
+        <nav>
+            {% for cat in categorias %}
+                <a href="{% url 'obtener_publicacion_filtro' cant=1 type='category' filter=cat.nombre order='recent' %}">{{ cat.nombre }}</a>
+            {% endfor %}
+        </nav>
+        <nav>
+            {% for aut in autores %}
+                <a href="{% url 'obtener_publicacion_filtro' cant=1 type='autors' filter=aut.pk order='recent' %}">{{ aut.nombre }}</a>
+            {% endfor %}
+        </nav>
         {% block body %}
-        <h6>Estas en la pagina principal</h6>
-        <h4 id="nombre"></h4>
-        <a href="{% url "login_page" %}">inicie sesion</a>
-        <script src="{% static 'main_page/js/index.js '%}" async defer></script>
-        <div id="container"></div>
-        <a href="{% url 'publicacion_pagina' 'new' %}">AAAAAAAAAA</a>
+        <h6>Publicaciones recientes</h6>
+        <div id="container">
+        {% if publicaciones %}
+            {% for publicacion in publicaciones %}
+            <button class="publicacion" id = "{{ publicacion.pk }}">
+                {% if publicacion.portada.archivo %}
+                <img src="{{ publicacion.portada.archivo.url }}" alt="">
+                {% else %}
+                <img src="{% static 'main_page/assets/placeholder.svg' %}" alt="">
+                {% endif %}
+                <h2>{{ publicacion.titulo }}</h2>
+                <h3>{{ publicacion.descripcion }}</h3>
+            </button>
+            {% endfor %}
+        {% endif %}
+        </div>
         {% endblock body %}
+        <script src="{% static 'main_page/js/index.js '%}?v=00001" async defer></script>
     </body>
 </html>

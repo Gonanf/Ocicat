@@ -3,7 +3,7 @@ from django.http import HttpResponse,HttpResponseBadRequest,HttpResponseNotFound
 from .models import Login
 from models.models import USUARIO
 
-            
+#TODO: Implementar UUID (Si se puede el V7 con la funcion de tiempo) y encriptar la cookie
 def find_user(request):
     galletita = request.COOKIES.get('sesion')
     if galletita is None:

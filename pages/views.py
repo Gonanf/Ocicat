@@ -3,61 +3,47 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotFound
 from models.models import CATEGORIA, PUBLICACION
 from login_endpoints.views import find_user, USUARIO
-from publication_endpoints.views import get_publication_by_id
+from other_endpoints.views import categoria, get_autors, get_categories
+from publication_endpoints.views import get_publication_by_id, get_publications_with_filter
 
 def index(request):
-    return render(request,'main_page/index.html')
+    user = find_user(request)
+    if isinstance(user,HttpResponseNotFound):
+        user = None
+    publicaciones = get_publications_with_filter("any", True)
+    categorias = get_categories()
+    autores = get_autors()
+    return render(request,'main_page/index.html',context={'usuario': user,'publicaciones': publicaciones, 'categorias': categorias, 'autores': autores})
 
 def login(request):
     return render(request,'login_page/login.html')
 
 #TODO: Cambiar esto a un endpoint
 def publications_with_filter(request,cant,type,filter,order):
-    if type == "category":
-        if order == "recent":
-            try: publicacion = PUBLICACION.objects.filter(categoria__nombre__in=[filter]).order_by('-id')[cant-5:cant]
-            except PUBLICACION.DoesNotExist:
-                publicacion = None
-        else:
-            try: publicacion = PUBLICACION.objects.filter(categoria__nombre__in=[filter]).order_by('id')[cant-5:cant]
-            except PUBLICACION.DoesNotExist:
-                publicacion = None
-        
-    if type == "autors":
-        if order == "recent":
-            try: publicacion = PUBLICACION.objects.filter(autor = filter).order_by('-id')[cant-5:cant]
-            except PUBLICACION.DoesNotExist:
-                publicacion = None
-        else:
-            try: publicacion = PUBLICACION.objects.filter(autor = filter).order_by('id')[cant-5:cant]
-            except PUBLICACION.DoesNotExist:
-                publicacion = None
-    if type == "title":
-        if order == "recent":
-            try: publicacion = PUBLICACION.objects.filter(titulo = filter).order_by('-id')[cant-5:cant]
-            except PUBLICACION.DoesNotExist:
-                publicacion = None
-        else:
-            try: publicacion = PUBLICACION.objects.filter(titulo = filter).order_by('id')[cant-5:cant]
-            except PUBLICACION.DoesNotExist:
-                publicacion = None
-    if publicacion == None:
-        return HttpResponse("La publicacion no existe")
+    print(type)
+    if order == "recent": publicacion = get_publications_with_filter(type,True,filter)[5*(cant-1):5 + (5*(cant - 1))]
+    else: publicacion = get_publications_with_filter(type,False,filter)[5*cant:5 + (5*(cant - 1))]
     return render(request,'filter_page/filter.html',context= {'publications': publicacion})
 
 def publication(request, type, id = None):
+    usuario = find_user(request)
     if (type == "new"):
-        usuario = find_user(request)
         if (isinstance(usuario,HttpResponseNotFound)):
-            return usuario
-        return render(request,'P_publication_page/post_publication.html', context={'categorias': [categoria.nombre for categoria in CATEGORIA.objects.all()], 'usuario': usuario.nombre})
+            return usuario    
+        categorias = get_categories()
+        autores = get_autors()
+        return render(request,'P_publication_page/post_publication.html', context={'categorias': categorias, 'autores': autores, 'usuario': usuario})
     if (type == "view"):
+        if (isinstance(usuario,HttpResponseNotFound)):
+            usuario = None
         if id == None:
             return HttpResponse("Mal ID")
         publicacion = get_publication_by_id(id)
         if publicacion == HttpResponse:
             return publicacion    
-        return render(request, 'G_publication_page/get_publication.html', context={'publicacion': publicacion})
+        categorias = get_categories()
+        autores = get_autors()
+        return render(request, 'G_publication_page/get_publication.html', context={'publicacion': publicacion,'categorias': categorias, 'autores': autores, 'usuario': usuario})
     
 
     

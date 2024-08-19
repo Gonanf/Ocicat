@@ -3,7 +3,7 @@ import datetime
 
 class PUBLICACION(models.Model):
     titulo = models.CharField(max_length=50, default="PLACEHOLDER TITLE")
-    autor = models.ForeignKey("USUARIO",on_delete=models.CASCADE, null=True)
+    autor = models.ForeignKey("USUARIO",on_delete=models.CASCADE)
     descripcion = models.TextField(default="LOREMP PSIUM")
     categoria = models.ManyToManyField("CATEGORIA")
     fecha = models.DateField(default=datetime.date.today)

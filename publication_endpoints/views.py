@@ -12,7 +12,21 @@ def get_publication_by_id(id):
         return HttpResponse("La publicacion no existe")
     return publicacion
 
-    
+def get_publications_with_filter(filter,recent,data = None):
+    order = 'id'
+    if recent:
+        order = '-id'
+    if filter == "category":
+            publicacion = PUBLICACION.objects.filter(categoria__nombre__in=[data]).order_by(order)
+    elif filter == "autors":
+            publicacion = PUBLICACION.objects.filter(autor = data).order_by(order)
+    elif filter == "title":
+            publicacion = PUBLICACION.objects.filter(titulo = data).order_by(order)
+    elif filter == "any":
+            publicacion = PUBLICACION.objects.all().order_by(order)
+    else: publicacion = None
+    return publicacion
+
 
 def publication(request):
     if (request.method == "POST"):
