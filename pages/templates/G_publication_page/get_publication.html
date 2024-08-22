@@ -26,6 +26,8 @@
   let elim = document.getElementById('eliminar');
   csrf_token = document.getElementsByName('csrfmiddlewaretoken')[0].value
 console.log("AA")
+let form = new FormData()
+form.append('id', {{ publicacion.pk }});
   mod.onclick = function(){
   console.log('mpod')
     fetch('/publication', {
@@ -33,7 +35,7 @@ console.log("AA")
     cache: "no-cache",
     credentials: "same-origin",
     headers: {"X-CSRFToken": csrf_token},
-    body: {'id': {{ publicacion.pk }}, },
+    body: form,
     });
   }
 
@@ -43,8 +45,8 @@ console.log("AA")
     cache: 'no-cache',
     credentials: 'same-origin',
     headers: {'X-CSRFToken': csrf_token},
-    body: JSON.stringify({ 'id': {{ publicacion.pk }} }),
-    }).then((a) => console.log(a)); 
+    body: form,
+    }).then((a) => location.href = location.origin); 
   }
 </script>
 

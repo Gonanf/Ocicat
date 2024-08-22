@@ -89,4 +89,5 @@ def publication_delete(request):
     id = request.POST.get('id',None)
     if id == None: return HttpResponseNotFound("BAD ID")
     publicacion = get_publication_by_id(id)
-    return publicacion.delete()
+    publicacion.delete()
+    return HttpResponse("Eliminado con exito")
