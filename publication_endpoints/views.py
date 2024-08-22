@@ -34,14 +34,23 @@ def publication(request):
         if (isinstance(user,HttpResponseNotFound)):
             return user
         portada = request.FILES.get('portada')
+        if portada == None: return HttpResponseNotFound("BAD FIELD")
         temp_portada = MEDIA(archivo = portada)
         temp_portada.save()
-        publicacion = PUBLICACION(titulo = request.POST.get('titulo','NULL'),
-                                  descripcion = request.POST.get('descripcion','NULL'),
+        titulo = request.POST.get('titulo', None)
+        if titulo == None: return HttpResponseNotFound("BAD FIELD")
+        descripcion = request.POST.get('descripcion', None)
+        if descripcion == None: return HttpResponseNotFound("BAD FIELD")
+
+        publicacion = PUBLICACION(titulo = titulo,
+                                  descripcion = descripcion,
                                   autor = user,
                                   portada = temp_portada)
+        if request.POST.get('categorias',None) == None: return HttpResponseNotFound("BAD FIELD")
+        if request.FILES.getlist('archivos[]', None) == None: return HttpResponseNotFound("BAD FIELD")
+        if len(request.FILES.getlist('archivos[]')) == 0: return HttpResponseNotFound("BAD FIELD")
         publicacion.save()
-        for cat in request.POST.get('categorias','NULL').split(','):
+        for cat in request.POST.get('categorias',None).split(','):
             try: cat_found = CATEGORIA.objects.get(nombre = cat)
             except CATEGORIA.DoesNotExist:
                 cat_found = None
@@ -73,5 +82,11 @@ def publication(request):
             'portada': publicacion.portada,
             'archivos': publicacion.archivos,
         })
+        
     
-    
+def publication_delete(request):
+    print(request.POST.get('id',None))
+    id = request.POST.get('id',None)
+    if id == None: return HttpResponseNotFound("BAD ID")
+    publicacion = get_publication_by_id(id)
+    return publicacion.delete()

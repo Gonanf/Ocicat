@@ -90,6 +90,9 @@ function create_container(){
       credentials: "same-origin",
       headers: { "X-CSRFToken": csrf_token },
       body: form,
-      redirect: "follow"
-    }).then((a) => location.href = a.url).catch((e) => console.log(e));
+    }).then((a) => {if (a.status != 404){location.href = a.url}
+      else{
+        console.log("ERROR");
+      }
+    }).catch((e) => console.log(e));
   };

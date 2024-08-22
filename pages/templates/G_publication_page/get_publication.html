@@ -6,11 +6,46 @@
 <h6>Fecha: {{ publicacion.fecha }}</h6>
 <div id="files">
   {% for archivo in publicacion.archivos.all %}
+  <div>
     <embed src="{{ archivo.archivo.url }}">
-  {% endfor %}
+      <a href=" {{ archivo.archivo.url }}" download> No te aparece el archivo? Descargar </a>  
+  </div>
+      {% endfor %}
 </div>
 <h5>Categorias: </h5>
 {% for categoria in publicacion.categoria.all %}
 <h6>{{ categoria.nombre }}</h6>
 {% endfor %}
+{% if usuario == publicacion.autor %}
+  <button id="modificar">Modificar</button>
+  <button id="eliminar">Eliminar</button>
+{% endif %}
+
+<script defer>
+  let mod = document.getElementById('modificar');
+  let elim = document.getElementById('eliminar');
+  csrf_token = document.getElementsByName('csrfmiddlewaretoken')[0].value
+console.log("AA")
+  mod.onclick = function(){
+  console.log('mpod')
+    fetch('/publication', {
+    method: 'PUT',
+    cache: "no-cache",
+    credentials: "same-origin",
+    headers: {"X-CSRFToken": csrf_token},
+    body: {'id': {{ publicacion.pk }}, },
+    });
+  }
+
+  elim.onclick = function(){
+    fetch('/publication_delete', {
+    method: 'POST',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {'X-CSRFToken': csrf_token},
+    body: JSON.stringify({ 'id': {{ publicacion.pk }} }),
+    }).then((a) => console.log(a)); 
+  }
+</script>
+
 {% endblock body %}
