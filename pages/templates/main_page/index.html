@@ -12,47 +12,54 @@
         <title>Ocicat</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
+        <link rel="stylesheet" href="{% static 'main/main_style.css' %}?v00003">
     </head>
-    <body>
+    <body class="fondo-cont h-vfull">
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
         <header>
-            <img src="{% static 'main_page/assets/OcicatLogo.svg' %}" alt="" id="logo">
-            <input type="text" name="" id="buscador" placeholder="Buscar un titulo">
-            <button id="buscar">
-                <img src="" alt="">
-                Buscar
-            </button>
-            {% if usuario %}
-            <h5>Hola {{ usuario.nombre }}</h5>
-        <a href="{% url 'publicacion_pagina' 'new' %}">Subir</a>
-                <button id="logout">Logout</button>
-            {% else %}
-            <a href="{% url "login_page" %}">inicie sesion</a>
-            {% endif %}
+            <nav class="flex flex-center">
+                <img src="{% static 'main/img/logo.svg' %}" alt="" class="maxW-10p">
+                <input type="text" name="" id="buscador" class="input pm-5 flex-main h-20" placeholder="Buscar por titulo"> 
+                <button type="image" class="small-button" id="buscar">
+                    <img src="{% static 'main/img/buscar.svg' %}" alt="" class="small-button">
+                </button>
+                {% if usuario %}
+                <a href="{% url 'publicacion_pagina' 'new' %}" class="small-button" >
+                    <img src="{% static 'main/img/subir_button.svg' %}" alt="" class="small-button">
+                </a>
+                <button type="image" class="small-button" id="logout"></button>
+                    <img src="{% static 'main/img/user.svg' %}" alt="" class="small-button">
+                </button>
+                {% else %}
+                <a href="{% url "login_page" %}">inicie sesion</a>
+                {% endif %}
+            </nav>
+            <nav class="flex flex-center">
+                {% for cat in categorias %}
+                <a href="{% url 'obtener_publicacion_filtro' cant=1 type='category' filter=cat.nombre order='recent' %}" class="bkg-purple white flex-main">{{ cat.nombre }}</a>
+                {% endfor %}
+            </nav>
+                
         </header>
-        <nav>
-            {% for cat in categorias %}
-                <a href="{% url 'obtener_publicacion_filtro' cant=1 type='category' filter=cat.nombre order='recent' %}">{{ cat.nombre }}</a>
-            {% endfor %}
-        </nav>
+        
+        <!--
         <nav>
             {% for aut in autores %}
                 <a href="{% url 'obtener_publicacion_filtro' cant=1 type='autors' filter=aut.pk order='recent' %}">{{ aut.nombre }}</a>
             {% endfor %}
-        </nav>
+        </nav>-->
         {% block body %}
         <h6>Publicaciones recientes</h6>
-        <div id="container">
+        <div id="container" class="flex wrap">
         {% if publicaciones %}
             {% for publicacion in publicaciones %}
-            <button class="publicacion" id = "{{ publicacion.pk }}">
+            <button class="publicacion" id = "{{ publicacion.pk }}" class="medium-button">
                 {% if publicacion.portada.archivo %}
-                <img src="{{ publicacion.portada.archivo.url }}" alt="">
+                <img src="{{ publicacion.portada.archivo.url }}" alt="" class="small-button">
                 {% else %}
-                <img src="{% static 'main_page/assets/placeholder.svg' %}" alt="">
+                <img src="{% static 'main_page/assets/placeholder.svg' %}" alt="" class="small-button">
                 {% endif %}
                 <h2>{{ publicacion.titulo }}</h2>
                 <h3>{{ publicacion.descripcion }}</h3>

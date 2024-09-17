@@ -1,9 +1,21 @@
 {% extends "main_page/index.html" %}
 {% block body %}
- <form action="{% url "login" %}" method="post">
-    {% csrf_token %}
-    <input type="email" name="gmail" id="gmail" placeholder="INGRESA GNAMOA">
-    <input type="password" name="contrasena" id="contrasena" placeholder="INGRESA CONTRASNEA">
-    <button type="submit">DALE</button>
- </form>
+{% load static %}
+ <div class="flex flex-columns items-center justify-center fondo-cont h-vfull">
+   <div class="bkg-white br-10p pm-5p">
+       <img src="{% static 'main/img/user_logo.svg' %}" alt="">
+       <form action="{% url 'login' %}" method="post" class="flex flex-columns flex-center">
+         {% csrf_token %}
+       <div class="flex">
+           <img src="{% static 'main/img/correo.svg' %}" alt="" class="maxW-10p">
+           <input type="email" name="gmail" id="gmail" class="input pm-5 w-full h-30" placeholder="Ingresar Gmail">
+       </div>
+       <div class="flex">
+           <img src="{% static 'main/img/password.svg' %}" alt="" class="maxW-10p">
+           <input type="password" name="contrasena" id="contrasena" class="input pm-5 w-full h-30"  placeholder="Ingresar contraseña">
+       </div>
+       <button type="submit" class="w-half br-20p bkg-aqua">Iniciar Sesion</button>
+      </form>
+   </div>
+</div>
  {% endblock body %}
