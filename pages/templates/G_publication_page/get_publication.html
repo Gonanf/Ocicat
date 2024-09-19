@@ -1,21 +1,26 @@
-{% extends "main_page/index.html" %} {% block body %} {% load static %}
-<h2>Esta publicacion fue creada por {{ publicacion.autor.nombre }}</h2>
-<img src="{{ publicacion.portada.archivo.url }}" alt="">
-<h3>Titulo: {{ publicacion.titulo }}</h3>
-<h5>Descripcion: {{ publicacion.descripcion }}</h5>
-<h6>Fecha: {{ publicacion.fecha }}</h6>
-<div id="files">
-  {% for archivo in publicacion.archivos.all %}
-  <div>
-    <embed src="{{ archivo.archivo.url }}">
-      <a href=" {{ archivo.archivo.url }}" download> No te aparece el archivo? Descargar </a>  
-  </div>
-      {% endfor %}
-</div>
-<h5>Categorias: </h5>
-{% for categoria in publicacion.categoria.all %}
+{% extends "main_page/index.html" %} 
+{% block body %}
+{% load static %}
+    <div class="flex flex-columns gap-10 items-center">
+      <img src="{{ publicacion.portada.archivo.url }}" alt="" class="maxW-40p">
+      <h1>{{ publicacion.titulo }}</h1>
+      <h3>Por {{ publicacion.autor.nombre }}</h3>
+      <h2>{{ publicacion.descripcion }}</h2>
+      <h4>{{ publicacion.fecha }}</h4>
+      <div class="flex flex-center">                                                {% for categoria in publicacion.categoria.all %}
 <h6>{{ categoria.nombre }}</h6>
 {% endfor %}
+      </div>
+    </div>
+    <div id="files">
+      {% for archivo in publicacion.archivos.all %}
+  <div>
+    <embed src="{{ archivo.archivo.url }}" class="w-full">
+      <a href=" {{ archivo.archivo.url }}" download> No te aparece el a
+rchivo? Descargar </a>
+    </div>
+    {% endfor %}
+    </div>
 {% if usuario == publicacion.autor %}
   <button id="modificar">Modificar</button>
   <button id="eliminar">Eliminar</button>

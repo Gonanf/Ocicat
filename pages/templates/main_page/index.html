@@ -36,7 +36,7 @@
                 <a href="{% url "login_page" %}">inicie sesion</a>
                 {% endif %}
             </nav>
-            <nav class="flex flex-center">
+            <nav class="flex flex-center text-center">
                 {% for cat in categorias %}
                 <a href="{% url 'obtener_publicacion_filtro' cant=1 type='category' filter=cat.nombre order='recent' %}" class="bkg-purple white flex-main">{{ cat.nombre }}</a>
                 {% endfor %}
