@@ -137,6 +137,11 @@
   width: 25px;
   height: 25px;
   margin: 2%;
+<<<<<<< HEAD
+=======
+  border: transparent;
+  background-color: transparent;
+>>>>>>> 5c9b7b9121a59bb699ce20b0520db7fbe56cd372
 }
 
 .medium-button{
