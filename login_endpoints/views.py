@@ -3,6 +3,21 @@ from django.http import HttpResponse,HttpResponseBadRequest,HttpResponseNotFound
 from .models import Login
 from models.models import USUARIO
 
+import bcrypt #
+txt = input("ingrese texto:")  #solicitado de texto en este caso txt 
+pwd = txt.encode(utf-8) #password and we need the text encode 
+sal = bcrypt.gensal() # adjunta a nuestro texto antes de ser cifrado
+encript = bcrypt.hashpw(pwd, sal)#el uso del hash es para la verificacion de la contraseña/aca se encripta la contraseñ
+print(encript)
+
+pwd = b"badañansosjsnssuses"
+
+txt = bytes(input("ingrese"),"utf-8")
+if bcrypt.checkpw(txt, pwd):  #pasar el texto comprobar el txt
+    print("la contraseña es correcta")
+else:
+print("la contraseña es incorrecta")
+
 #TODO: Implementar UUID (Si se puede el V7 con la funcion de tiempo) y encriptar la cookie
 def find_user(request):
     galletita = request.COOKIES.get('sesion')
