@@ -17,6 +17,8 @@ pwd = b"badañansosjsnssuses"
 txt = bytes(input("ingrese"),"utf-8")
 if bcrypt.checkpw(txt, pwd):  #pasar el texto comprobar el txt
     print("la contraseña es correcta")
+    self.Login.destroy()
+    USUARIO()
 else:
 print("la contraseña es incorrecta")
 
