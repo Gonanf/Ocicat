@@ -6,6 +6,8 @@ from models.models import USUARIO
 <<<<<<< HEAD
 =======
 import bcrypt #
+import urllib2
+from openSSL import SSL
 txt = input("ingrese texto:")  #solicitado de texto en este caso txt 
 pwd = txt.encode(utf-8) #password and we need the text encode 
 sal = bcrypt.gensal() # adjunta a nuestro texto antes de ser cifrado
@@ -17,8 +19,19 @@ pwd = b"badañansosjsnssuses"
 txt = bytes(input("ingrese"),"utf-8")
 if bcrypt.checkpw(txt, pwd):  #pasar el texto comprobar el txt
     print("la contraseña es correcta")
+    self.ventana.destroy()
+    USUARIO()
 else:
 print("la contraseña es incorrecta")
+
+try:
+    response = urllib2.urlopen('')
+    print 'response headers: "%s"' % response.info()
+except IOError, e:
+    if hasattr(e, 'code'):
+        print 'http error code: ', e.code
+    elif hasattr(e, 'reason'):
+        print "no se pudo conectar", e.reason
 
 >>>>>>> 5c9b7b9121a59bb699ce20b0520db7fbe56cd372
 #TODO: Implementar UUID (Si se puede el V7 con la funcion de tiempo) y encriptar la cookie
