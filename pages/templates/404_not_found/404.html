@@ -1,0 +1,28 @@
+{% extends "main_page/index.html" %} {% block body %} {% load static %}
+
+<style>
+    .button {
+  background-color: #002f57ff;
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+</style>
+<center><h1>Error 404</h1></center>
+<center><h2>"Que extraño, no hay nada aqui."</h2></center>
+<h3 style="margin-right: 20%; text-align: right; margin-left: 40%">
+    La pagina que estas buscando no ha podido ser encontrada. Puede que haya sido eliminada o movida. Revisa el URL o vuelve a la pagina principal 
+</h3>
+<img src="{% static '404/error.svg' %}" alt="kitty goes here" style="width: 50%; float: left;"></img>
+    <a href="{% url 'index' %}"><center><button class="button">
+        Pagina principal
+    </button></center></a>
+    
+    {% endblock body %}

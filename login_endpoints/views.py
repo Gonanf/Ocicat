@@ -19,11 +19,16 @@ pwd = b"badañansosjsnssuses"
 txt = bytes(input("ingrese"),"utf-8")
 if bcrypt.checkpw(txt, pwd):  #pasar el texto comprobar el txt
     print("la contraseña es correcta")
+<<<<<<< HEAD
     self.ventana.destroy()
+=======
+    self.Login.destroy()
+>>>>>>> 8895c6640a0eb0920e80be8c68efa7b24d8d984c
     USUARIO()
 else:
 print("la contraseña es incorrecta")
 
+<<<<<<< HEAD
 try:
     response = urllib2.urlopen('')
     print 'response headers: "%s"' % response.info()
@@ -33,6 +38,8 @@ except IOError, e:
     elif hasattr(e, 'reason'):
         print "no se pudo conectar", e.reason
 
+=======
+>>>>>>> 8895c6640a0eb0920e80be8c68efa7b24d8d984c
 >>>>>>> 5c9b7b9121a59bb699ce20b0520db7fbe56cd372
 #TODO: Implementar UUID (Si se puede el V7 con la funcion de tiempo) y encriptar la cookie
 def find_user(request):
