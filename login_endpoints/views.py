@@ -3,8 +3,6 @@ from django.http import HttpResponse,HttpResponseBadRequest,HttpResponseNotFound
 from .models import Login
 from models.models import USUARIO
 
-<<<<<<< HEAD
-=======
 import bcrypt #
 import urllib2
 from openSSL import SSL
@@ -19,28 +17,21 @@ pwd = b"badañansosjsnssuses"
 txt = bytes(input("ingrese"),"utf-8")
 if bcrypt.checkpw(txt, pwd):  #pasar el texto comprobar el txt
     print("la contraseña es correcta")
-<<<<<<< HEAD
     self.ventana.destroy()
-=======
     self.Login.destroy()
->>>>>>> 8895c6640a0eb0920e80be8c68efa7b24d8d984c
     USUARIO()
 else:
-print("la contraseña es incorrecta")
+    print("la contraseña es incorrecta")
 
-<<<<<<< HEAD
+
 try:
     response = urllib2.urlopen('')
-    print 'response headers: "%s"' % response.info()
+    print ('response headers: "%s"' % response.info())
 except IOError, e:
     if hasattr(e, 'code'):
-        print 'http error code: ', e.code
+        print ('http error code: ', e.code)
     elif hasattr(e, 'reason'):
-        print "no se pudo conectar", e.reason
-
-=======
->>>>>>> 8895c6640a0eb0920e80be8c68efa7b24d8d984c
->>>>>>> 5c9b7b9121a59bb699ce20b0520db7fbe56cd372
+        print ("no se pudo conectar", e.reason)
 #TODO: Implementar UUID (Si se puede el V7 con la funcion de tiempo) y encriptar la cookie
 def find_user(request):
     galletita = request.COOKIES.get('sesion')
