@@ -4,6 +4,10 @@
     font-family: Georgia, "Times New Roman", Times, serif;
 }
 
+.overflow-zero {
+    overflow: hidden;
+}
+
 .purple {
     color: purple;
 }
