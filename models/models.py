@@ -1,5 +1,7 @@
 from django.db import models
+from django.dispatch import receiver
 import datetime
+import os
 
 class PUBLICACION(models.Model):
     titulo = models.CharField(max_length=50, default="PLACEHOLDER TITLE")
@@ -17,6 +19,16 @@ class USUARIO(models.Model):
 
 class MEDIA(models.Model):
     archivo = models.FileField(upload_to="media/")
+
+    
+@receiver(models.signals.post_delete, sender=MEDIA)
+def on_delete(sender, instance, **kargs):
+    print("elimiando")
+    if instance.archivo:
+        print("existe")
+        if os.path.isfile(instance.archivo.path):
+            print("eliminao")
+            os.remove(instance.archivo.path)
 
 class CATEGORIA(models.Model):
     nombre = models.CharField(max_length=50)
