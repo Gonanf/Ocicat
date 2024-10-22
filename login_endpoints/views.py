@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse,HttpResponseBadRequest,HttpResponseNotFound, JsonResponse
+from django.http import HttpResponse,HttpResponseBadRequest,HttpResponseNotFound, JsonResponse, HttpResponseRedirect
 from .models import Login
 from models.models import USUARIO
 
@@ -21,7 +21,7 @@ def login_end(request):
             try: user = USUARIO.objects.get(contrasena = data.cleaned_data['contrasena'], gmail = data.cleaned_data['gmail'])
             except USUARIO.DoesNotExist:
                 return HttpResponseNotFound("No existe")
-            response = HttpResponse("Logrado con exito")
+            response = HttpResponseRedirect('/')
             response.set_cookie('sesion', user.pk)
             return response
         return HttpResponseBadRequest("No es valido")
