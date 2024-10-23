@@ -120,6 +120,10 @@
     max-width: 40%;
 }
 
+.w-50vh {
+    width: 50vh;
+}
+
 .maxW-10p {
     max-width: 10%;
 }
@@ -167,6 +171,15 @@
 .min-none {
     min-width: none;
     min-height: none;
+}
+
+.invisible {
+    pointer-events: none;
+}
+
+.invisible-image {
+    border: transparent;
+    background-color: transparent;
 }
 
 .active {
