@@ -68,6 +68,13 @@
 .gap-10 {
     gap: 10px;
 }
+.gap-10p {
+    gap: 10%;
+}
+
+.left-50p {
+    left: -50%;
+}
 
 .inline-flex {
     display: inline-flex;
