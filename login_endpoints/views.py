@@ -33,7 +33,7 @@ def login_end(request):
     if request.method == "DELETE":
         galletita = request.COOKIES.get('sesion')
         if galletita is None:
-            return HttpResponseNotFound("No existe")
-        response = HttpResponse("Logrado")
+            return HttpResponseRedirect('/404')
+        response = HttpResponseRedirect("/")
         response.delete_cookie('sesion')
         return response
