@@ -23,5 +23,9 @@ let buscador = document.getElementById('buscador')
 let buscar = document.getElementById('buscar')
 
 buscar.onclick = function(){
+
+	if (buscador.value.length != 0){
+
   location = (location.origin + "/publication_page/filter/1/title/" + buscador.value + "/recent");
+	}
 }

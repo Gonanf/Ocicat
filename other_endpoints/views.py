@@ -10,3 +10,16 @@ def get_autors():
 
 def categoria(request):
     return JsonResponse({'categorias': [categoria.nombre for categoria in CATEGORIA.objects.all()]}, safe=False)
+
+class ManagerDigitos:
+    def init_dv():
+        pass
+
+    def actualize_dv(table):
+        pass
+    
+    def check_dv(table):
+        pass
+
+    def check_whole():
+        pass
