@@ -11,15 +11,18 @@ class PUBLICACION(models.Model):
     fecha = models.DateField(default=datetime.date.today)
     archivos = models.ManyToManyField("MEDIA",related_name="files")
     portada = models.ForeignKey("MEDIA",on_delete=models.SET_NULL, null=True)
+    dv = models.IntegerField()
 
 class USUARIO(models.Model):
     nombre = models.CharField(max_length=50,default="PLACEHOLDER NAME")
     gmail = models.EmailField(default="PLACEHOLDER GMAIL")
     contrasena = models.CharField(max_length=30, default="PLACEHOLDER PASSWORD")
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    dv = models.IntegerField()
 
 class MEDIA(models.Model):
     archivo = models.FileField(upload_to="media/")
+    dv = models.IntegerField()
 
     
 @receiver(models.signals.post_delete, sender=MEDIA)
@@ -33,6 +36,11 @@ def on_delete(sender, instance, **kargs):
 
 class CATEGORIA(models.Model):
     nombre = models.CharField(max_length=50)
+
+class DIGITOS_VERIFICADORES(models.Model):
+    tabla = models.CharField(max_length=50)
+    dv = models.IntegerField()
+    
 
 
 
