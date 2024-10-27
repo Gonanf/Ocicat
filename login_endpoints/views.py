@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseBadRequest,HttpResponseNotFound, JsonResponse, HttpResponseRedirect
 from .models import Login
-from models.models import USUARIO
+from models.models import USUARIO,DIGITOS_VERIFICADORES
 
 #TODO: Implementar UUID (Si se puede el V7 con la funcion de tiempo) y encriptar la cookie
 def find_user(request):
+    if not DIGITOS_VERIFICADORES.verify_dv_page():
+        return render(request,'DV_page/dv.html')
     galletita = request.COOKIES.get('sesion')
     if galletita is None:
         return HttpResponseNotFound("No existe")
@@ -15,6 +17,8 @@ def find_user(request):
 
 
 def login_end(request):
+    if not DIGITOS_VERIFICADORES.verify_dv_page():
+        return render(request,'DV_page/dv.html')
     if request.method == "POST":
         data = Login(request.POST)
         if data.is_valid():

@@ -8,7 +8,13 @@ from .models import PUBLICACION,USUARIO,MEDIA,CATEGORIA,DIGITOS_VERIFICADORES
 def actualize_DV(modeladmin, request, queryset):
     modelos = queryset.all()
     for m in modelos:
-        m.renove_dv()
+        m.renove_dv(True)
+
+@admin.action(description="get DV")
+def get_dvtable_dv(modeladmin, request, queryset):
+    modelos = queryset.all()
+    for m in modelos:
+        m.get_dv()
 
 @admin.action(description="Actualize DV table")
 def actualize_DV_table(modeladmin, request, queryset):
@@ -16,9 +22,20 @@ def actualize_DV_table(modeladmin, request, queryset):
     for m in modelos:
         m.actualize_table()
 
+@admin.action(description="Actualize all the DV tables")
+def actualize_all_DV_table(modeladmin, request, queryset):
+    for i in DIGITOS_VERIFICADORES.objects.all():
+        i.actualize_table()
+
+@admin.action(description="Verify DV table")
+def verify_DV_table(modeladmin, request, queryset):
+    modelos = queryset.all()
+    for m in modelos:
+        m.verify_dv()
+
 class USUARIO_ADMIN(admin.ModelAdmin):
     list_display = ['nombre']
-    actions = [actualize_DV]
+    actions = [actualize_DV,get_dvtable_dv]
 
 admin.site.register(USUARIO, USUARIO_ADMIN)
 
@@ -41,4 +58,4 @@ class PUBLICACION_ADMIN(admin.ModelAdmin):
 @admin.register(DIGITOS_VERIFICADORES)
 class DIGITOS_VERIFICADORES_ADMIN(admin.ModelAdmin):
     list_display = ['tabla']
-    actions = [actualize_DV_table]
+    actions = [actualize_DV_table,actualize_all_DV_table,get_dvtable_dv]

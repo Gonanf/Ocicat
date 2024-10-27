@@ -1,10 +1,12 @@
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from .models import Publication_Data
-from models.models import MEDIA, PUBLICACION, CATEGORIA
+from models.models import MEDIA, PUBLICACION, CATEGORIA,DIGITOS_VERIFICADORES
 from login_endpoints.views import find_user
 
 def get_publication_by_id(id):
+    if not DIGITOS_VERIFICADORES.verify_dv_page():
+        return render(request,'DV_page/dv.html')
     try: publicacion = PUBLICACION.objects.get(pk = id)
     except PUBLICACION.DoesNotExist:
         publicacion = None
@@ -13,6 +15,8 @@ def get_publication_by_id(id):
     return publicacion
 
 def get_publications_with_filter(filter,recent,data = None):
+    if not DIGITOS_VERIFICADORES.verify_dv_page():
+        return render(request,'DV_page/dv.html')
     order = 'id'
     if recent:
         order = '-id'
@@ -29,6 +33,8 @@ def get_publications_with_filter(filter,recent,data = None):
 
 
 def publication(request):
+    if not DIGITOS_VERIFICADORES.verify_dv_page():
+        return render(request,'DV_page/dv.html')
     if (request.method == "POST"):
         user = find_user(request)
         if (isinstance(user,HttpResponseNotFound)):
@@ -57,7 +63,7 @@ def publication(request):
                 continue
             if cat_found != None:
                 publicacion.categoria.add(cat_found)
-        
+
         archivos = request.FILES.getlist('archivos[]')
 
         archivos_media = list()
@@ -82,10 +88,11 @@ def publication(request):
             'portada': publicacion.portada,
             'archivos': publicacion.archivos,
         })
-        
-    
+
+
 def publication_delete(request):
-    print(request.POST.get('id',None))
+    if not DIGITOS_VERIFICADORES.verify_dv_page():
+        return render(request,'DV_page/dv.html')
     id = request.POST.get('id',None)
     if id == None: return HttpResponseNotFound("BAD ID")
     publicacion = get_publication_by_id(id)

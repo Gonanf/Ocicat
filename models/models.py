@@ -6,10 +6,7 @@ import os
 import uuid
 
 def calculate_string(text) -> int:
-    print(int.from_bytes(bytes(text, 'utf-8'), byteorder='big'))
     return int.from_bytes(bytes(text, 'utf-8'), byteorder='big')
-
-
 
 class PUBLICACION(models.Model):
     titulo = models.CharField(max_length=50, default="PLACEHOLDER TITLE")
@@ -23,23 +20,15 @@ class PUBLICACION(models.Model):
 
     def renove_dv(self):
         buffer = calculate_string(getattr(self, "titulo"))
-        print(int(getattr(self, "autor").dv))
         buffer += int(getattr(self, "autor").dv)
-        print(getattr(self, "descripcion"))
         buffer += calculate_string(getattr(self, "descripcion"))
-        print(date_format(getattr(self, "fecha")))
         buffer += calculate_string(date_format(getattr(self, "fecha")))
-        print(getattr(self, "categoria").all())
         for i in getattr(self, "categoria").all():
             buffer += i.dv
-        print(getattr(self, "archivos").all())
         for i in getattr(self, "archivos").all():
             buffer += i.dv
-        print(getattr(self, "portada"))
         buffer += getattr(self, "portada").dv
-        print(str(buffer))
         self.dv = str(buffer)
-        print(self.dv)
         self.save()
         return buffer
 
@@ -48,30 +37,33 @@ class USUARIO(models.Model):
     gmail = models.EmailField(default="PLACEHOLDER GMAIL")
     contrasena = models.CharField(max_length=30, default="PLACEHOLDER PASSWORD")
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    dv = models.TextField(default="1")
+    dv = models.BigIntegerField(default=1)
 
-    def renove_dv(self):
+
+    def renove_dv(self, saving):
         buffer = calculate_string(getattr(self, "nombre"))
-        print(getattr(self, "gmail"))
         buffer += calculate_string(getattr(self, "gmail"))
-        print(getattr(self, "contrasena"))
         buffer += calculate_string(getattr(self, "contrasena"))
-        print(str(buffer))
-        self.dv = str(buffer)
-        print(self.dv)
-        self.save()
+        print(buffer)
+        if saving:
+            self.dv = buffer
+            self.save()
+            print(int(self.dv))
+
         return buffer
+
+    def get_dv(self):
+        print(int(self.dv))
 
 class MEDIA(models.Model):
     archivo = models.FileField(upload_to="media/")
     dv = models.TextField(default="1")
 
-    def renove_dv(self):
+    def renove_dv(self, saving):
         buffer = calculate_string(getattr(self, "archivo").name)
-        print(str(buffer))
-        self.dv = str(buffer)
-        print(self.dv)
-        self.save()
+        if saving:
+            self.dv = buffer
+            self.save()
         return buffer
 
 
@@ -88,31 +80,64 @@ class CATEGORIA(models.Model):
     nombre = models.CharField(max_length=50)
     dv = models.TextField(default="1")
 
-    def renove_dv(self):
+    def renove_dv(self, saving):
         buffer = calculate_string(getattr(self, "nombre"))
-        print(str(buffer))
-        self.dv = str(buffer)
-        print(self.dv)
-        self.save()
+        if saving:
+            self.dv = buffer
+            self.save()
         return buffer
 
 class DIGITOS_VERIFICADORES(models.Model):
+
     tabla = models.CharField(max_length=50)
     dv = models.TextField(default="1")
+
+    def get_dv(self):
+        print(int(self.dv))
 
     def actualize_table(self):
         data = 0
         if self.tabla == "USUARIO":
             for i in USUARIO.objects.all():
-                data += i.renove_dv()
+                data += i.dv
         elif self.tabla == "MEDIA":
             for i in MEDIA.objects.all():
-                data += i.renove_dv()
+                data += i.dv
         elif self.tabla == "CATEGORIA":
             for i in CATEGORIA.objects.all():
-                data += i.renove_dv()
+                data += i.dv
         elif self.tabla == "PUBLICACION":
             for i in PUBLICACION.objects.all():
-                data += i.renove_dv()
+                data += i.dv
         self.dv = data
+        print(int(data))
         self.save()
+        print(int(self.dv))
+
+    def verify_dv(self):
+        dv = 0
+        if self.tabla == "USUARIO":
+            for i in USUARIO.objects.all():
+                print(i)
+                print(int(i.dv))
+                print(i.renove_dv(False))
+                dv += i.renove_dv(False)
+        elif self.tabla == "MEDIA":
+            for i in MEDIA.objects.all():
+                dv +=  i.renove_dv()
+        elif self.tabla == "CATEGORIA":
+            for i in CATEGORIA.objects.all():
+                dv +=  i.renove_dv()
+        elif self.tabla == "PUBLICACION":
+            for i in PUBLICACION.objects.all():
+                dv +=  i.renove_dv()
+        print(self.tabla)
+        print(dv)
+        print(int(self.dv))
+        return dv == int(self.dv)
+
+    def verify_dv_page():
+        for i in DIGITOS_VERIFICADORES.objects.all():
+            if not i.verify_dv():
+                return False
+        return True
