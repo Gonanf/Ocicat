@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotFound
+from django.template.loader import render_to_string
 from models.models import CATEGORIA, PUBLICACION,DIGITOS_VERIFICADORES
 from login_endpoints.views import find_user, USUARIO
 from other_endpoints.views import categoria, get_autors, get_categories
@@ -7,7 +8,7 @@ from publication_endpoints.views import get_publication_by_id, get_publications_
 
 def index(request):
     if not DIGITOS_VERIFICADORES.verify_dv_page():
-        return render(request,'DV_page/dv.html')
+        return HttpResponse(render_to_string("DV_page/dv.html"))
     user = find_user(request)
     if isinstance(user,HttpResponseNotFound):
         user = None
@@ -19,7 +20,7 @@ def index(request):
 
 def login(request):
     if not DIGITOS_VERIFICADORES.verify_dv_page():
-        return render(request,'DV_page/dv.html')
+        return HttpResponse(render_to_string("DV_page/dv.html"))
     return render(request,'login_page/login.html')
 
 #TODO: Cambiar esto a un endpoint

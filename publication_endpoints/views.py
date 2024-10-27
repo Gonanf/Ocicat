@@ -16,7 +16,7 @@ def get_publication_by_id(id):
 
 def get_publications_with_filter(filter,recent,data = None):
     if not DIGITOS_VERIFICADORES.verify_dv_page():
-        return render(request,'DV_page/dv.html')
+        return ('DV_page/dv.html')
     order = 'id'
     if recent:
         order = '-id'
