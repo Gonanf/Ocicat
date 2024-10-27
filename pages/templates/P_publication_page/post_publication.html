@@ -4,96 +4,110 @@
     <h1 class="text-title p-5">Subir contenido</h1>
 </div>
 <div class="flex wrap">
-    <div class="flex items-center flex-columns pb-10">
+    <div class="flex items-center flex-columns br< pb-10">
+        <div class="flex nowrap items-center justify-between">
+            <img
+                src="../static/img/anterior.svg"
+                alt=""
+                class="preview_item arrow"
+            />
+            <img
+                src="../static/img/placeholder.svg"
+                alt=""
+                style="max-width: 100%; max-height: 100%; min-width: 10%"
+                class="preview_item"
+            />
+            <img
+                src="../static/img/siguiente.svg"
+                alt=""
+                class="preview_item arrow"
+            />
+        </div>
         <div
-            class="inline-flex justify-center gap-10p p-5 minW-300 maxW-500 carousel slide"
-            data-interval="false"
-            id="ocarousel"
+            class="inline-flex justify-center gap-10 p-5 minW-300 maxW-500 carousel slide"
+            id="carouselExampleControls"
+            data-bs-ride="carousel"
         >
             <div
                 class="carousel-inner overflow-zero"
-                id="files"
                 style="width: min-content"
-            ></div>
+            >
+                <div class="carousel-item active">
+                    <img
+                        src="{% static 'main/img/placeholder.svg' %}"
+                        alt=""
+                        class="active dblock w-10"
+                    />
+                </div>
+                <div class="carousel-item">
+                    <img
+                        src="{% static 'main/img/placeholder.svg' %}"
+                        alt=""
+                        class="active dblock w-10"
+                    />
+                </div>
+                <div class="carousel-item">
+                    <img
+                        src="{% static 'main/img/placeholder.svg' %}"
+                        alt=""
+                        class="active dblock w-10"
+                    />
+                </div>
+            </div>
             <button
-                class="carousel-control-prev left-50p"
+                class="carousel-control-prev"
                 type="button"
-                data-bs-target="#ocarousel"
+                data-bs-target="#carouselExampleControls"
                 data-bs-slide="prev"
             >
-                <img
-                    src="{% static 'main/img/anterior.svg' %}"
-                    alt=""
-                    class="w-half"
+                <span
+                    class="carousel-control-prev-icon"
                     aria-hidden="true"
-                />
+                ></span>
                 <span class="visually-hidden">Previous</span>
             </button>
             <button
                 class="carousel-control-next"
                 type="button"
-                data-bs-target="#ocarousel"
+                data-bs-target="#carouselExampleControls"
                 data-bs-slide="next"
             >
-                <img
-                    src="{% static 'main/img/siguiente.svg' %}"
-                    alt=""
-                    class="w-half"
+                <span
+                    class="carousel-control-next-icon"
                     aria-hidden="true"
-                />
+                ></span>
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
         <div class="flex justify-between">
-            <button class="small-button" id="anterior">
-                <img
-                    src="{% static 'main/img/orden_anterior.svg' %}"
-                    alt=""
-                    class="w-half"
-                />
-            </button>
-            <button class="small-button" id="siguiente">
-                <img
-                    src="{% static 'main/img/orden_siguiente.svg' %}"
-                    alt=""
-                    class="w-half"
-                />
-            </button>
+            <img
+                src="../static/img/orden_anterior.svg"
+                alt=""
+                style="width: 10%"
+            />
+            <img src="../static/img/eliminar.svg" alt="" style="width: 20%" />
+            <img
+                src="../static/img/orden_siguiente.svg"
+                alt=""
+                style="width: 10%"
+            />
         </div>
-        <div class="flex justify-between">
-            <button class="medium-button" id="eliminar">
-                <img
-                    src="{% static 'main/img/eliminar.svg' %}"
-                    alt=""
-                    class="w-half"
-                />
-            </button>
-            <button class="medium-button" id="añadir">
-                <img
-                    src="{% static 'main/img/plus.svg' %}"
-                    alt=""
-                    class="w-half"
-                />
-            </button>
-        </div>
+        <img src="../static/img/plus.svg" alt="" style="width: 5%" />
     </div>
     <!--SIDEBAR-->
     <div class="sh-normal br flex-grow">
         <div class="flex justify-center">
-            <input
-                src="{% static 'main/img/placeholder.svg' %}"
-                type="image"
-                id="falso_input"
-                onclick="document.getElementById('portada').click()"
-                class="preview_item w-50vh"
+            <img
+                src="../static/img/placeholder.svg"
+                alt=""
+                style="max-width: 100%; max-height: 100%"
+                class="preview_item"
             />
-            <input type="file" name="" id="portada" accept="image/*" hidden />
         </div>
         <div class="flex flex-columns">
             <input
                 type="text"
                 name="titulo"
-                id="titulo"
                 value=""
                 placeholder="Ingresar titulo"
                 class="input pm-5 w-full h-30"
@@ -101,7 +115,6 @@
             <input
                 type="text"
                 name="descripcion"
-                id="descripcion"
                 value=""
                 placeholder="Ingresar descripcion"
                 class="input pm-5 w-full h-20"
@@ -118,155 +131,23 @@
                 <option value="{{ cat.nombre }}">{{ cat.nombre }}</option>
                 {% endfor %}
             </select>
-            <button
-                type=""
-                class="w-half br-20p bkg-aqua"
-                type="submit"
-                id="enviar"
-            >
-                Subir
-            </button>
+            <button type="" class="w-half br-20p bkg-aqua">Subir</button>
         </div>
     </div>
 </div>
 
-<script defer>
-    csrf_token = document.getElementsByName("csrfmiddlewaretoken")[0].value;
-
-    document.getElementById("eliminar").onclick = function () {
-        let active = document.querySelector(".active");
-        if (!active) {
-            return;
-        }
-        active.parentElement.removeChild(active);
-        let new_ac = document.querySelector(".carousel-item");
-        if (new_ac) {
-            new_ac.classList += " active";
-        }
-    };
-
-    document.getElementById("portada").onchange = function () {
-        if (this.files && this.files[0]) {
-            var reader = new FileReader();
-
-            reader.onload = function (e) {
-                document.getElementById("falso_input").src = e.target.result;
-            };
-
-            reader.readAsDataURL(this.files[0]);
-        }
-    };
-
-    document.getElementById("añadir").onclick = function () {
-        let container = document.createElement("div");
-        let button = document.createElement("button");
-        let img = document.createElement("embed");
-        img.classList += "dblock w-50vh";
-        img.src = "{% static 'main/img/placeholder.svg' %}";
-        let active = document.querySelector(".active");
-        if (active) {
-            active.classList = "carousel-item";
-        }
-        let filefield = document.createElement("input");
-        filefield.type = "file";
-        filefield.hidden = true;
-        filefield.classList += "archivos";
-        button.appendChild(img);
-        button.classList += " invisible-image";
-        button.style.zIndex = "3";
-        button.onclick = function () {
-            filefield.click();
-        };
-        filefield.onchange = function () {
-            if (this.files && this.files[0]) {
-                var reader = new FileReader();
-
-                reader.onload = function (e) {
-                    img.src = e.target.result;
-                };
-
-                reader.readAsDataURL(this.files[0]);
-            }
-        };
-        container.appendChild(button);
-        container.appendChild(filefield);
-        let text = document.createElement("h5");
-        text.innerHTML = "Cambiar";
-        button.appendChild(text);
-        container.classList += "carousel-item active ";
-        let file = document.getElementById("files");
-        file.appendChild(container);
-    };
-
-    document.getElementById("anterior").onclick = function () {
-        let active = document.querySelector(".active");
-        if (!active) {
-            return;
-        }
-        if (
-            active.previousElementSibling &&
-            active.previousElementSibling.classList.contains("carousel-item")
-        ) {
-            active.parentNode.insertBefore(
-                active,
-                active.previousElementSibling,
-            );
-        }
-    };
-
-    document.getElementById("siguiente").onclick = function () {
-        let active = document.querySelector(".active");
-        if (!active) {
-            return;
-        }
-        if (
-            active.nextElementSibling &&
-            active.nextElementSibling.classList.contains("carousel-item")
-        ) {
-            active.parentNode.insertBefore(active.nextElementSibling, active);
-        }
-    };
-
-    document.getElementById("enviar").onclick = function () {
-        let titulo = document.getElementById("titulo");
-        let descripcion = document.getElementById("descripcion");
-        let portada = document.getElementById("portada");
-        let categorias = document.getElementById("categoria");
-        let archivos = document.querySelectorAll('input[type="file"].archivos');
-        let archivos_filtrados = Array();
-        for (let i = 0; i < archivos.length; i++) {
-            if (archivos[i].files.length > 0) {
-                archivos_filtrados.push(archivos[i].files[0]);
-            }
-        }
-        let categorias_filtradas = Array();
-        for (let i = 0; i < categorias.options.length; i++) {
-            console.log();
-            if (categorias.options[i].selected) {
-                categorias_filtradas.push(categorias.options[i].value);
-            }
-        }
-        let form = new FormData();
-        form.append("titulo", titulo.value);
-        form.append("descripcion", descripcion.value);
-        form.append("portada", portada.files[0]);
-        form.append("categorias", categorias_filtradas);
-        archivos_filtrados.forEach((a) => form.append("archivos[]", a));
-        fetch("/publication", {
-            method: "POST",
-            cache: "no-cache",
-            credentials: "same-origin",
-            headers: { "X-CSRFToken": csrf_token },
-            body: form,
-        })
-            .then((a) => {
-                if (a.status != 404) {
-                    location.href = a.url;
-                } else {
-                    console.log("ERROR");
-                }
-            })
-            .catch((e) => console.log(e));
-    };
-</script>
+<input type="file" name="" id="portada" accept="image/*" />
+<input type="text" name="" id="titulo" />
+<input type="text" name="" id="descripcion" />
+<select name="" id="categoria" multiple>
+    Seleccionar una categoria {% for cat in categorias %}
+    <option value="{{ cat.nombre }}">{{ cat.nombre }}</option>
+    {% endfor %}
+</select>
+<div id="files"></div>
+<button type="submit" id="enviar">DALE</button>
+<script
+    src="{% static 'P_publication_page/js/post_publication.js' %}?v=00002"
+    defer
+></script>
 {% endblock body %}
