@@ -1,3 +1,4 @@
+from re import purge
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from .models import Publication_Data
@@ -43,6 +44,8 @@ def publication(request):
         if portada == None: return HttpResponseNotFound("BAD FIELD")
         temp_portada = MEDIA(archivo = portada)
         temp_portada.save()
+        temp_portada.renove_dv(True)
+        print(temp_portada.dv)
         titulo = request.POST.get('titulo', None)
         if titulo == None: return HttpResponseNotFound("BAD FIELD")
         descripcion = request.POST.get('descripcion', None)
@@ -70,8 +73,15 @@ def publication(request):
         for files in archivos:
             temp = MEDIA(archivo = files)
             temp.save()
+            temp.renove_dv(True)
+            print(temp.dv)
             publicacion.archivos.add(temp)
             archivos_media.append(temp.archivo.url)
+        publicacion.renove_dv(True)
+        dv_table = DIGITOS_VERIFICADORES.objects.get(tabla="PUBLICACION")
+        dv_table.actualize_table()
+        dv_table = DIGITOS_VERIFICADORES.objects.get(tabla="MEDIA")
+        dv_table.actualize_table()
         print(archivos_media)
         return HttpResponseRedirect("/publication_page/view/"+str(publicacion.pk))
     if request.method == "GET":
@@ -101,4 +111,8 @@ def publication_delete(request):
     publicacion.archivos.clear()
     publicacion.portada.delete()
     publicacion.delete()
+    dv_table = DIGITOS_VERIFICADORES.objects.get(tabla="PUBLICACION")
+    dv_table.actualize_table()
+    dv_table = DIGITOS_VERIFICADORES.objects.get(tabla="MEDIA")
+    dv_table.actualize_table()
     return HttpResponse("Eliminado con exito")

@@ -21,7 +21,9 @@ def index(request):
 def login(request):
     if not DIGITOS_VERIFICADORES.verify_dv_page():
         return HttpResponse(render_to_string("DV_page/dv.html"))
-    return render(request,'login_page/login.html')
+    categorias = get_categories()
+    autores = get_autors()
+    return render(request,'login_page/login.html',context={'categorias': categorias, 'autores': autores})
 
 #TODO: Cambiar esto a un endpoint
 def publications_with_filter(request,cant,type,filter,order):

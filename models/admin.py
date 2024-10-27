@@ -42,7 +42,7 @@ admin.site.register(USUARIO, USUARIO_ADMIN)
 @admin.register(MEDIA)
 class MEDIA_ADMIN(admin.ModelAdmin):
     list_display = ['archivo']
-    actions = [actualize_DV]
+    actions = [actualize_DV,get_dvtable_dv]
 
 
 @admin.register(CATEGORIA)

@@ -46,17 +46,12 @@ class USUARIO(models.Model):
 
 
     def renove_dv(self, saving):
-        print("nombre")
         buffer = calculate_string(getattr(self, "nombre"))
-        print("gmail")
         buffer += calculate_string(getattr(self, "gmail"))
-        print("contrasena")
         buffer += calculate_string(getattr(self, "contrasena"))
-        print(buffer)
         if saving:
             self.dv = buffer
             self.save()
-            print(int(self.dv))
 
         return buffer
 
@@ -73,6 +68,8 @@ class MEDIA(models.Model):
             self.dv = buffer
             self.save()
         return buffer
+    def get_dv(self):
+        print(int(self.dv))
 
 
 @receiver(models.signals.post_delete, sender=MEDIA)
