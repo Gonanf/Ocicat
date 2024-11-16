@@ -4,9 +4,9 @@
     <h1 class="text-title p-5">Subir contenido</h1>
 </div>
 <div class="flex wrap">
-    <div class="flex items-center flex-columns pb-10">
+    <div class="flex items-center flex-columns pb-10" style="width: min-content;">
         <div
-            class="inline-flex justify-center gap-10p p-5 minW-300 maxW-500 carousel slide"
+            class="inline-flex justify-center gap-10p p-5 carousel slide"
             data-interval="false"
             id="ocarousel"
         >
@@ -135,7 +135,9 @@
 
     document.getElementById("eliminar").onclick = function () {
         let active = document.querySelector(".active");
-        if (!active) {
+        let cant = document.querySelectorAll(".carousel-item")
+        console.log(cant)
+        if (!active || cant.length <= 1) {
             return;
         }
         active.parentElement.removeChild(active);
@@ -157,7 +159,7 @@
         }
     };
 
-    document.getElementById("añadir").onclick = function () {
+    function create_placeholder(){
         let container = document.createElement("div");
         let button = document.createElement("button");
         let img = document.createElement("embed");
@@ -196,6 +198,11 @@
         container.classList += "carousel-item active ";
         let file = document.getElementById("files");
         file.appendChild(container);
+    }
+
+    create_placeholder()
+    document.getElementById("añadir").onclick = function () {
+        create_placeholder()
     };
 
     document.getElementById("anterior").onclick = function () {

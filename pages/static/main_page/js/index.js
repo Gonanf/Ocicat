@@ -22,10 +22,16 @@ for (var i = 0; i < publicaciones.length; i++){
 let buscador = document.getElementById('buscador')
 let buscar = document.getElementById('buscar')
 
-buscar.onclick = function(){
+let logo = document.getElementById("logo")
 
+logo.onclick = function(){
+  window.location.href = window.location.origin
+}
+buscar.onsubmit = function(a){
+console.log("ol")
 	if (buscador.value.length != 0){
-
-  location = (location.origin + "/publication_page/filter/1/title/" + buscador.value + "/recent");
-	}
+  window.location.href = window.location.origin + "/publication_page/filter/1/title/" + buscador.value + "/recent"
+  console.log(window.location,"xd")
+}
+a.preventDefault()
 }

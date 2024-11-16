@@ -1,11 +1,11 @@
 {% extends "main_page/index.html" %} {% block body %} {% load static %}
-<h1>FILTRO</h1>
+<h1>FILTRO POR {{ type }} " {{ filtro }} "</h1>
 {% for publicacion in publications %}
-<button class="publicacion w-half" id="{{ publicacion.pk }}">
+<button class="publicacion big-margen" id="{{ publicacion.pk }}">
   {% if publicacion.portada.archivo %}
-  <img src="{{ publicacion.portada.archivo.url }}" alt="" class="w-half"/>
+  <img src="{{ publicacion.portada.archivo.url }}" alt="" class="big-button "/>
   {% else %}
-  <img src="{% static 'main_page/assets/placeholder.svg' %}" alt="" />
+  <img src="{% static 'main_page/assets/placeholder.svg' %}" alt="" class="big-button"/>
   {% endif %}
   <h2>{{ publicacion.titulo }}</h2>
   <h3>{{ publicacion.descripcion }}</h3>

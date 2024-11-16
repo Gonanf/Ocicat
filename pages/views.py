@@ -21,17 +21,33 @@ def index(request):
 def login(request):
     if not DIGITOS_VERIFICADORES.verify_dv_page():
         return HttpResponse(render_to_string("DV_page/dv.html"))
+    user = find_user(request)
+    if isinstance(user,HttpResponseNotFound):
+        user = None
     categorias = get_categories()
     autores = get_autors()
-    return render(request,'login_page/login.html',context={'categorias': categorias, 'autores': autores})
+    return render(request,'login_page/login.html',context={'categorias': categorias, 'autores': autores,'usuario':user})
 
 #TODO: Cambiar esto a un endpoint
 def publications_with_filter(request,cant,type,filter,order):
+    categorias = get_categories()
+    autores = get_autors()
     if not DIGITOS_VERIFICADORES.verify_dv_page():
-        return render(request,'DV_page/dv.html')
-    if order == "recent": publicacion = get_publications_with_filter(type,True,filter)[5*(cant-1):5 + (5*(cant - 1))]
-    else: publicacion = get_publications_with_filter(type,False,filter)[5*cant:5 + (5*(cant - 1))]
-    return render(request,'filter_page/filter.html',context= {'publications': publicacion})
+        return render(request,'DV_page/dv.html',context={"categorias":categorias,"autores":autores,'usuario':user})
+    user = find_user(request)
+    if isinstance(user,HttpResponseNotFound):
+        user = None
+    if order == "recent": 
+        publicacion = get_publications_with_filter(type,True,filter)
+        if publicacion == None:
+            return render(request,'404/404.html',context={"categorias":categorias,"autores":autores,'usuario':user})
+        publicacion = publicacion[5*(cant-1):5 + (5*(cant - 1))]
+    else: 
+        publicacion = get_publications_with_filter(type,False,filter)
+        if publicacion == None:
+            return render(request,'404/404.html',context={"categorias":categorias,"autores":autores,'usuario':user})
+        publicacion = publicacion[5*cant:5 + (5*(cant - 1))]
+    return render(request,'filter_page/filter.html',context= {'publications': publicacion, 'type':type,'filtro':filter,'numero':cant, "autores":autores, "categorias":categorias,'usuario':user})
 
 def publication(request, type, id = None):
     if not DIGITOS_VERIFICADORES.verify_dv_page():

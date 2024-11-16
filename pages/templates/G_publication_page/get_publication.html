@@ -2,9 +2,9 @@
 {% block body %}
 {% load static %}
     <div class="flex flex-columns gap-10 items-center">
-      <img src="{{ publicacion.portada.archivo.url }}" alt="" class="maxW-40p">
+      <img src="{{ publicacion.portada.archivo.url }}" alt="" class="big-button">
       <h1>{{ publicacion.titulo }}</h1>
-      <h3>Por {{ publicacion.autor.nombre }}</h3>
+      <a href="{% url 'obtener_publicacion_filtro' cant=1 type='autors' filter=publicacion.autor.pk order='recent' %}">Por {{ publicacion.autor.nombre }}</a>
       <h2>{{ publicacion.descripcion }}</h2>
       <h4>{{ publicacion.fecha }}</h4>
       <div class="flex flex-center">                                                {% for categoria in publicacion.categoria.all %}
@@ -16,13 +16,11 @@
       {% for archivo in publicacion.archivos.all %}
   <div>
     <embed src="{{ archivo.archivo.url }}" class="w-full">
-      <a href=" {{ archivo.archivo.url }}" download> No te aparece el a
-rchivo? Descargar </a>
+      <a href=" {{ archivo.archivo.url }}" download> No te aparece el archivo? Descargar </a>
     </div>
     {% endfor %}
     </div>
 {% if usuario == publicacion.autor %}
-  <button id="modificar">Modificar</button>
   <button id="eliminar">Eliminar</button>
 {% endif %}
 
@@ -30,20 +28,8 @@ rchivo? Descargar </a>
   let mod = document.getElementById('modificar');
   let elim = document.getElementById('eliminar');
   csrf_token = document.getElementsByName('csrfmiddlewaretoken')[0].value
-console.log("AA")
 let form = new FormData()
 form.append('id', {{ publicacion.pk }});
-  mod.onclick = function(){
-  console.log('mpod')
-    fetch('/publication', {
-    method: 'PUT',
-    cache: "no-cache",
-    credentials: "same-origin",
-    headers: {"X-CSRFToken": csrf_token},
-    body: form,
-    });
-  }
-
   elim.onclick = function(){
     fetch('/publication_delete', {
     method: 'POST',

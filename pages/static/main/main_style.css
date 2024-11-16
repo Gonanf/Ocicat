@@ -163,6 +163,23 @@
     background-color: transparent;
 }
 
+.big-button {
+    width: 200px;
+    height: 200px;
+    margin: 2%;
+    border: transparent;
+    background-color: transparent;
+}
+
+.big-margen {
+    width: 400px;
+    height: 400px;
+    margin: 2%;
+    border: transparent;
+    background-color: rgba(27, 0, 200, 0.356);
+}
+
+
 .bkg-search {
     background-image: url("../static/img/buscar.svg");
     background-size: cover;
@@ -282,6 +299,10 @@
 
 .flex-grow {
     flex-grow: 1;
+}
+
+.flex-grow-none {
+    flex-grow: 0;
 }
 
 .justify-end {

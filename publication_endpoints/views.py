@@ -15,6 +15,11 @@ def get_publication_by_id(id):
         return HttpResponse("La publicacion no existe")
     return publicacion
 
+def get_publications_lenght():
+    if not DIGITOS_VERIFICADORES.verify_dv_page():
+        return ('DV_page/dv.html')
+    return PUBLICACION.objects.count()
+
 def get_publications_with_filter(filter,recent,data = None):
     if not DIGITOS_VERIFICADORES.verify_dv_page():
         return ('DV_page/dv.html')

@@ -12,7 +12,7 @@
         <title>Ocicat</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="{% static 'main/main_style.css' %}?v00003">
+        <link rel="stylesheet" href="{% static 'main/main_style.css' %}?v00004">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     </head>
     <body class="fondo-cont h-vfull">
@@ -20,30 +20,50 @@
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
         <header>
-            <nav class="flex flex-center">
-                <img src="{% static 'main/img/logo.svg' %}" alt="" class="maxW-10p">
-                <input type="text" name="" id="buscador" class="input pm-5 flex-main h-20" placeholder="Buscar por titulo">
-                <button type="image" class="small-button" id="buscar">
-                    <img src="{% static 'main/img/buscar.svg' %}" alt="" class="small-button">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand flex-main" id="logo"><img src="{% static 'main/img/logo.svg' %}" alt="" class="maxW-10p"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#items"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse pm-5" style="flex-grow: 0;" id="items">
+            <form action="" class="form-inline my-2 my-lg-0 flex pm-5" id="buscar">
+                    <input type="text" name="" id="buscador" class="input pm-5 flex-main h-20" placeholder="Buscar por titulo">
+                <button type="image|submit" class="small-button my-2 my-sm-0">
+                    <img src="{% static 'main/img/buscar.svg' %}" alt="" class="small-button my-2 my-sm-0">
                 </button>
+            </form>
+                <ul class="navbar-nav mr-auto">
+
                 {% if usuario %}
-                <a href="{% url 'publicacion_pagina' 'new' %}" class="small-button" >
-                    <img src="{% static 'main/img/subir_button.svg' %}" alt="" class="small-button">
+                <li class="nav-item">
+                <a href="{% url 'publicacion_pagina' 'new' %}" >
+                    <img src="{% static 'main/img/subir_button.svg' %}" alt="" class="medium-button" style="margin: 0;">
                 </a>
+            </li>
 
-                <button type="image" class="small-button" id="logout">
-
-                    <img src="{% static 'main/img/user.svg' %}" alt="" class="small-button">
-                </button>
+                <li class="nav-link">
+                <a id="logout">
+                    Logout <img src="{% static 'main/img/user.svg' %}" alt="" class="small-button">
+                </a>
+            </li>
                 {% else %}
-                <a href="{% url "login_page" %}">inicie sesion</a>
+                <li class="nav-link"><a href="{% url "login_page" %}">inicie sesion</a></li>
                 {% endif %}
-            </nav>
-            <nav class="flex flex-center text-center">
+            <li class="nav-item dropdown"><a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Categorias</a>
+                <ul class="dropdown-menu">
                 {% for cat in categorias %}
-                <a href="{% url 'obtener_publicacion_filtro' cant=1 type='category' filter=cat.nombre order='recent' %}" class="bkg-purple white flex-main">{{ cat.nombre }}</a>
+                <li class="dropdown-item"><a href="{% url 'obtener_publicacion_filtro' cant=1 type='category' filter=cat.nombre order='recent' %}" class="bkg-purple white flex-main">{{ cat.nombre }}</a></li>
                 {% endfor %}
-            </nav>
+            </ul>
+            </li>
+            <li class="nav-item dropdown"><a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Autores</a>
+                <ul class="dropdown-menu">
+                {% for cat in autores %}
+                <li class="dropdown-item"><a href="{% url 'obtener_publicacion_filtro' cant=1 type='autors' filter=cat.pk order='recent' %}" class="bkg-purple white flex-main">{{ cat.nombre }}</a></li>
+                {% endfor %}
+            </ul>
+            </li>
+        </ul>
+        </div>
+    </nav>
 
         </header>
 
@@ -58,11 +78,11 @@
         <div id="container" class="flex wrap">
         {% if publicaciones %}
             {% for publicacion in publicaciones %}
-            <button class="publicacion" id = "{{ publicacion.pk }}" class="medium-button">
+            <button class="publicacion big-margen" id = "{{ publicacion.pk }}">
                 {% if publicacion.portada.archivo %}
-                <img src="{{ publicacion.portada.archivo.url }}" alt="" class="small-button">
+                <img src="{{ publicacion.portada.archivo.url }}" alt="" class="big-button">
                 {% else %}
-                <img src="{% static 'main_page/assets/placeholder.svg' %}" alt="" class="small-button">
+                <img src="{% static 'main_page/assets/placeholder.svg' %}" alt="" class="big-button">
                 {% endif %}
                 <h2>{{ publicacion.titulo }}</h2>
                 <h3>{{ publicacion.descripcion }}</h3>
@@ -71,7 +91,7 @@
         {% endif %}
         </div>
         {% endblock body %}
-        <script src="{% static 'main_page/js/index.js' %}?v00007" async defer></script>
+        <script src="{% static 'main_page/js/index.js' %}?v00009" async defer></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     </body>
 </html>
